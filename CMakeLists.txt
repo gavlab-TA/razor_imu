@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(razor_imu_serial)
 
-include_directories(/usr/include/serial)
-link_directories(/usr/lib/)
+include_directories(/tmp/usr/local/include/)
+link_directories(/tmp/usr/local/lib/)
 
 add_executable(test src/test.cpp src/razor_imu/razor_imu_serial.cpp)
 target_link_libraries(test serial)
