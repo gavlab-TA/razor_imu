@@ -40,28 +40,25 @@ RazorImuSerial::~RazorImuSerial()
 
 bool RazorImuSerial::readMessage(ImuData &data)
 {
-    serial_message = serial_port->readline();
+    serial_message = serial_port->readline();        
     split_message.clear();
-
     boost::split(split_message, serial_message, boost::is_any_of(","));
 
-    if (split_message.size() >= 10)
+    if (split_message.size() >= 13)
     {
+        data.accel.x = std::atof(split_message.at(2).c_str()) * gravity_scale;
+        data.accel.y = std::atof(split_message.at(3).c_str()) * gravity_scale;
+        data.accel.z = std::atof(split_message.at(4).c_str()) * gravity_scale;
 
-        data.accel.x = std::atof(split_message.at(0).c_str()) * gravity_scale;
-        data.accel.y = std::atof(split_message.at(1).c_str()) * gravity_scale;
-        data.accel.z = std::atof(split_message.at(2).c_str()) * gravity_scale;
+        data.gyro.x = std::atof(split_message.at(5).c_str()) * deg2rad;
+        data.gyro.y = std::atof(split_message.at(6).c_str()) * deg2rad;
+        data.gyro.z = std::atof(split_message.at(7).c_str()) * deg2rad;
 
-        data.gyro.x = std::atof(split_message.at(3).c_str()) * deg2rad;
-        data.gyro.y = std::atof(split_message.at(4).c_str()) * deg2rad;
-        data.gyro.z = std::atof(split_message.at(5).c_str()) * deg2rad;
+        data.mag.x = std::atof(split_message.at(8).c_str());
+        data.mag.y = std::atof(split_message.at(9).c_str());
+        data.mag.z = std::atof(split_message.at(10).c_str());
 
-        data.mag.x = std::atof(split_message.at(6).c_str());
-        data.mag.y = std::atof(split_message.at(7).c_str());
-        data.mag.z = std::atof(split_message.at(8).c_str());
-
-        data.temp = std::atof(split_message.at(9).c_str());
-
+        data.temp = std::atof(split_message.at(11).c_str());
         return true;
     }
     else
