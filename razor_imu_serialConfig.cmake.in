@@ -2,12 +2,13 @@ set(RAZOR_IMU_VERSION 0.0.0)
 
 @PACKAGE_INIT@
 
+find_package(serial)
 
 set(PACKAGE_PREFIX_DIR /usr/local)
-set(RAZOR_IMU_LIB_DIRS ${PACKAGE_PREFIX_DIR}/lib/razor_imu_serial ${SERIAL_LIB_DIRS})
-set(RAZOR_IMU_INCLUDE_DIRS ${PACKAGE_PREFIX_DIR}/include ${SERIAL_INCLUDE_DIRS})
+set(RAZOR_IMU_LIB_DIRS "${PACKAGE_PREFIX_DIR}/lib/razor_imu_serial;${SERIAL_LIB_DIRS}")
+set(RAZOR_IMU_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/include;${SERIAL_INCLUDE_DIRS}")
 
-set(RAZOR_IMU_LIBS razor_imu_serial ${SERIAL_LIBS})
+set(RAZOR_IMU_LIBS "razor_imu_serial;${SERIAL_LIBS}")
 
 link_directories(${RAZOR_IMU_LIB_DIRS})
 include_directories(${RAZOR_IMU_INCLUDE_DIRS})
